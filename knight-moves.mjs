@@ -2,8 +2,10 @@ import Queue from "./queue.mjs";
 const [boardWidth, boardHeight] = [8, 8];
 
 export default function knightMoves(pos, target) {
-  if (!isCoordinate(pos)) return "Invalid position";
-  if (!isCoordinate(target)) return "Invalid target";
+  if (!isCoordinate(target))
+    throw new Error("Invalid target", { cause: target });
+  if (!isCoordinate(pos)) throw new Error("Invalid position", { cause: pos });
+
   const visitedPos = Array.from({ length: boardWidth }, (i) => (i = []));
 
   const queue = new Queue();
