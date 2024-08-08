@@ -14,6 +14,7 @@ export default function knightMoves(pos, target) {
   while (!targetFound) {
     currentMove = queue.dequeue();
     const [x, y] = currentMove.position;
+
     if (x === target[0] && y === target[1]) {
       targetFound = true;
     } else if (!visitedPos[x][y]) {
@@ -21,6 +22,7 @@ export default function knightMoves(pos, target) {
         if (move) queue.enqueue(move);
       });
     }
+
     visitedPos[x][y] = true;
   }
   return printMoves(currentMove.path);
@@ -45,13 +47,13 @@ function createMoveNode(position, p = []) {
     // couldnt think of a nice way to generate these that wasnt overly complicated :/
     return [
       createMoveNode([x + 1, y + 2], path),
+      createMoveNode([x - 1, y - 2], path),
+      createMoveNode([x - 2, y + 1], path),
+      createMoveNode([x + 2, y - 1], path),
+      createMoveNode([x - 2, y - 1], path),
       createMoveNode([x + 2, y + 1], path),
       createMoveNode([x + 1, y - 2], path),
-      createMoveNode([x + 2, y - 1], path),
       createMoveNode([x - 1, y + 2], path),
-      createMoveNode([x - 2, y + 1], path),
-      createMoveNode([x - 1, y - 2], path),
-      createMoveNode([x - 2, y - 1], path),
     ];
   }
   return {
