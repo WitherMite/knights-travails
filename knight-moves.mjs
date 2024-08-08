@@ -4,6 +4,7 @@ const [boardWidth, boardHeight] = [8, 8];
 export default function knightMoves(pos, target) {
   if (!isCoordinate(pos)) return "Invalid position";
   if (!isCoordinate(target)) return "Invalid target";
+  const visitedPos = Array.from({ length: boardWidth }, (i) => (i = []));
 
   const queue = new Queue();
   let targetFound = false;
@@ -12,14 +13,15 @@ export default function knightMoves(pos, target) {
   queue.enqueue(createMoveNode(pos));
   while (!targetFound) {
     currentMove = queue.dequeue();
-    const curPos = currentMove.position;
-    if (curPos[0] === target[0] && curPos[1] === target[1]) {
+    const [x, y] = currentMove.position;
+    if (x === target[0] && y === target[1]) {
       targetFound = true;
-    } else {
+    } else if (!visitedPos[x][y]) {
       currentMove.getNextMoves().forEach((move) => {
         if (move) queue.enqueue(move);
       });
     }
+    visitedPos[x][y] = true;
   }
   return printMoves(currentMove.path);
 }
